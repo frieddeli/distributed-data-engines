@@ -77,6 +77,10 @@ $$P(B \mid A) = \frac{\text{Count}(A, B)}{\sum_{B'} \text{Count}(A, B')} = \frac
 ### The Order Inversion Design Pattern
 Calculating $P(B \mid A)$ in the Pairs approach normally requires the Reducer to buffer all pairs for word $A$ in memory to compute the marginal sum before dividing. To eliminate unbounded buffer allocation:
 
+<p align="center">
+  <img src="docs/images/mapreduce_order_inversion_architecture.png" alt="MapReduce Order Inversion Architecture Flow" width="850"/>
+</p>
+
 1. **Mapper emits sentinel pair:** Emits `(A, "*") -> 1` before emitting each bigram `(A, B) -> 1`.
 2. **Custom Partitioner:** Hashes strictly on the left word $A$:
    ```java
@@ -106,6 +110,10 @@ hadoop jar target/mapreduce-patterns-1.0.0.jar io.github.frieddeli.mapreduce.Big
 ## 2. Spark RDD Optimization & Telemetry (`spark-telemetry/`)
 
 ### `groupByKey()` vs. `reduceByKey()` Shuffle Mechanics
+
+<p align="center">
+  <img src="docs/images/spark_shuffle_execution_mechanics.png" alt="Apache Spark Shuffle Mechanics: groupByKey vs reduceByKey" width="850"/>
+</p>
 
 ```python
 # ANTI-PATTERN: groupByKey()
@@ -137,6 +145,10 @@ python log_analysis.py
 
 Key empirical findings from benchmarking AWS EC2 compute, memory, and network subsystems:
 
+<p align="center">
+  <img src="docs/images/ec2_subsystem_scaling_benchmarks.png" alt="AWS EC2 Subsystem Scaling Benchmarks" width="850"/>
+</p>
+
 1. **SMT Structural Contention:** On compute-bound prime calculations, two independent physical cores (`t2.medium`, Broadwell E5-2686 v4) achieved **$1.77\times$ scaling**, while two hyperthreads sharing a single core (`c5d.large`, Skylake 8124M) achieved only **$1.56\times$ scaling** due to execution unit hazards.
 2. **Memory Bus Saturation (9× Disparity):** `c5d.large` achieved **$7,578.52\text{ MiB/s}$** memory throughput versus $855.68\text{ MiB/s}$ on `t2.medium`. Skylake provides **6 memory channels of DDR4-2666 ($127.9\text{ GB/s}$ theoretical peak)** versus 4 channels of DDR3-1600 ($51.2\text{ GB/s}$ peak).
 3. **Network Proximity vs. WAN Transit:** Same-type instances within an AWS VPC achieved **$0.200\text{ ms}$ RTT**, while cross-continental transit between `us-east-1` (Virginia) and `us-west-2` (Oregon) suffered an **$89\%$ throughput collapse ($4.97\text{ Gbps} \rightarrow 529\text{ Mbps}$)** and a **$400\times$ latency penalty ($54.8\text{ ms}$)**.
@@ -148,6 +160,11 @@ Full data tables and microarchitecture analysis available in [`cloud-benchmarks/
 ## 4. Cluster Deployments & Container Orchestration (`cluster-deployments/`)
 
 Production infrastructure blueprints and orchestration manifests:
+
+<p align="center">
+  <img src="docs/images/kubernetes_dockercoins_cluster_topology.png" alt="Kubernetes DockerCoins Cluster Topology & Autoscaling" width="850"/>
+</p>
+
 - **`bare-metal-hadoop/`:** Manual EC2 distributed cluster configuration. Contains daemon XML descriptors (`core-site.xml`, `hdfs-site.xml`, `yarn-site.xml`, `mapred-site.xml`), worker registry (`slaves`), and cluster bootstrap automation (`bootstrap-cluster.sh`) initializing NameNode metadata and YARN JobHistory daemons.
 - **`docker-runtime/`:** Multi-stage `Dockerfile` packaging OpenJDK 8, Hadoop binaries, and PySpark 3.5, with `docker-compose.yml` defining an isolated multi-node virtual network for local DAG testing.
 - **`kubernetes-microservices/`:** Declarative Kubernetes manifests deploying the 5-service `DockerCoins` distributed mining application (`rng`, `hasher`, `worker`, `webui`, `redis`). Includes ClusterIP service abstractions, NodePort ingress, and replica autoscaling runbooks.
