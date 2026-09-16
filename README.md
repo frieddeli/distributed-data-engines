@@ -16,6 +16,7 @@ Systems implementations, algorithmic optimization patterns, and empirical perfor
 
 ```
 distributed-data-engines/
+├── Makefile                     # Root build, test, and orchestration automation
 ├── mapreduce-patterns/          # Production MapReduce design patterns in Java
 │   ├── pom.xml
 │   ├── data/                    # Sample corpus (1400-8.txt)
@@ -36,6 +37,30 @@ distributed-data-engines/
     ├── bare-metal-hadoop/       # Multi-node EC2 cluster setup (core/hdfs/yarn XMLs)
     ├── docker-runtime/          # Docker multi-stage build & compose cluster
     └── kubernetes-microservices/# Declarative K8s manifests (DockerCoins 5-service)
+```
+
+---
+
+## Quickstart & Orchestration
+
+The root `Makefile` automates compilation, testing, and cluster orchestration:
+
+```bash
+# 1. Compile Java MapReduce algorithms
+make build-mr
+
+# 2. Run Spark DAG shuffle benchmarks & NASA log telemetry
+make run-spark
+
+# 3. Spin up local 2-node virtual Hadoop cluster via Docker
+make docker-build
+make docker-up
+
+# 4. Deploy DockerCoins 5-tier microservices stack to Kubernetes
+make k8s-deploy
+make k8s-status
+make k8s-scale N=4   # Scales worker daemon from 1 to 4 replicas (15.2 hash/s)
+make k8s-clean
 ```
 
 ---
