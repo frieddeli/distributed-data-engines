@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rng
+  labels:
+    app: dockercoins
+    role: rng
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dockercoins
+      role: rng
+  template:
+    metadata:
+      labels:
+        app: dockercoins
+        role: rng
+    spec:
+      containers:
+      - name: rng
+        image: dockercoins/rng:v0.1
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rng
+  labels:
+    app: dockercoins
+    role: rng
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: dockercoins
+    role: rng

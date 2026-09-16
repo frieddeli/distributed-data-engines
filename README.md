@@ -30,8 +30,12 @@ distributed-data-engines/
 │   ├── requirements.txt
 │   ├── word_count.py            # RDD DAG analysis: reduceByKey vs groupByKey
 │   └── log_analysis.py          # NASA Common Log Format ETL & 404 diagnostics
-└── cloud-benchmarks/            # AWS EC2 hardware microbenchmarks & analysis
-    └── README.md                # SMT scaling, 6-channel DDR4, & WAN transit metrics
+├── cloud-benchmarks/            # AWS EC2 hardware microbenchmarks & analysis
+│   └── README.md                # SMT scaling, 6-channel DDR4, & WAN transit metrics
+└── cluster-deployments/         # Cluster provisioning & orchestration manifests
+    ├── bare-metal-hadoop/       # Multi-node EC2 cluster setup (core/hdfs/yarn XMLs)
+    ├── docker-runtime/          # Docker multi-stage build & compose cluster
+    └── kubernetes-microservices/# Declarative K8s manifests (DockerCoins 5-service)
 ```
 
 ---
@@ -113,6 +117,15 @@ Key empirical findings from benchmarking AWS EC2 compute, memory, and network su
 3. **Network Proximity vs. WAN Transit:** Same-type instances within an AWS VPC achieved **$0.200\text{ ms}$ RTT**, while cross-continental transit between `us-east-1` (Virginia) and `us-west-2` (Oregon) suffered an **$89\%$ throughput collapse ($4.97\text{ Gbps} \rightarrow 529\text{ Mbps}$)** and a **$400\times$ latency penalty ($54.8\text{ ms}$)**.
 
 Full data tables and microarchitecture analysis available in [`cloud-benchmarks/README.md`](cloud-benchmarks/README.md).
+
+---
+
+## 4. Cluster Deployments & Container Orchestration (`cluster-deployments/`)
+
+Production infrastructure blueprints and orchestration manifests:
+- **`bare-metal-hadoop/`:** Manual EC2 distributed cluster configuration. Contains daemon XML descriptors (`core-site.xml`, `hdfs-site.xml`, `yarn-site.xml`, `mapred-site.xml`), worker registry (`slaves`), and cluster bootstrap automation (`bootstrap-cluster.sh`) initializing NameNode metadata and YARN JobHistory daemons.
+- **`docker-runtime/`:** Multi-stage `Dockerfile` packaging OpenJDK 8, Hadoop binaries, and PySpark 3.5, with `docker-compose.yml` defining an isolated multi-node virtual network for local DAG testing.
+- **`kubernetes-microservices/`:** Declarative Kubernetes manifests deploying the 5-service `DockerCoins` distributed mining application (`rng`, `hasher`, `worker`, `webui`, `redis`). Includes ClusterIP service abstractions, NodePort ingress, and replica autoscaling runbooks.
 
 ---
 

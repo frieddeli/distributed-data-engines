@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <!-- Replication factor for distributed blocks -->
+    <property>
+        <name>dfs.replication</name>
+        <value>2</value>
+        <description>Default block replication count across DataNodes.</description>
+    </property>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>/home/ubuntu/hadoop_data/hdfs/namenode</value>
+        <description>Path on the local filesystem where NameNode stores metadata.</description>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>/home/ubuntu/hadoop_data/hdfs/datanode</value>
+        <description>Path on the local filesystem where DataNode stores HDFS blocks.</description>
+    </property>
+    <property>
+        <name>dfs.blocksize</name>
+        <value>134217728</value> <!-- 128 MB -->
+        <description>Default HDFS block chunk size.</description>
+    </property>
+</configuration>

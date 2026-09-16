@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <!-- ResourceManager host mapping -->
+    <property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>hadoop-master</value>
+        <description>The hostname of the YARN ResourceManager.</description>
+    </property>
+    <!-- MapReduce shuffle auxiliary service required by NodeManagers -->
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+        <description>Auxiliary service required by NodeManagers for MapReduce shuffling.</description>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+        <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+    </property>
+    <!-- Memory resource configuration per NodeManager -->
+    <property>
+        <name>yarn.nodemanager.resource.memory-mb</name>
+        <value>3072</value>
+        <description>Physical memory in MB that may be allocated for YARN containers.</description>
+    </property>
+</configuration>

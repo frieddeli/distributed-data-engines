@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: dockercoins
+    role: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dockercoins
+      role: redis
+  template:
+    metadata:
+      labels:
+        app: dockercoins
+        role: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:alpine
+        ports:
+        - containerPort: 6379
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    app: dockercoins
+    role: redis
+spec:
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+    app: dockercoins
+    role: redis

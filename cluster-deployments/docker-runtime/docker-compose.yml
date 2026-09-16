@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  master:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hadoop-master
+    hostname: hadoop-master
+    ports:
+      - "50070:50070"  # NameNode Web UI
+      - "8088:8088"    # YARN ResourceManager Web UI
+      - "8080:8080"    # Spark Master Web UI
+    volumes:
+      - ../..:/workspace
+    networks:
+      data-cluster-net:
+        ipv4_address: 172.20.0.10
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hadoop-worker-1
+    hostname: hadoop-worker-1
+    depends_on:
+      - master
+    volumes:
+      - ../..:/workspace
+    networks:
+      data-cluster-net:
+        ipv4_address: 172.20.0.11
+
+networks:
+  data-cluster-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

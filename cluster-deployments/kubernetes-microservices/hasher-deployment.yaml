@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hasher
+  labels:
+    app: dockercoins
+    role: hasher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dockercoins
+      role: hasher
+  template:
+    metadata:
+      labels:
+        app: dockercoins
+        role: hasher
+    spec:
+      containers:
+      - name: hasher
+        image: dockercoins/hasher:v0.1
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hasher
+  labels:
+    app: dockercoins
+    role: hasher
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: dockercoins
+    role: hasher

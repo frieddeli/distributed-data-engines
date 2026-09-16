@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  labels:
+    app: dockercoins
+    role: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dockercoins
+      role: worker
+  template:
+    metadata:
+      labels:
+        app: dockercoins
+        role: worker
+    spec:
+      containers:
+      - name: worker
+        image: dockercoins/worker:v0.1
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+          requests:
+            cpu: "100m"
+            memory: "64Mi"

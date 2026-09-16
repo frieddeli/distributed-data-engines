@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <!-- MapReduce execution framework: bind to YARN -->
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+        <description>The runtime framework for executing MapReduce jobs.</description>
+    </property>
+    <!-- JobHistoryServer address -->
+    <property>
+        <name>mapreduce.jobhistory.address</name>
+        <value>hadoop-master:10020</value>
+    </property>
+    <property>
+        <name>mapreduce.jobhistory.webapp.address</name>
+        <value>hadoop-master:19888</value>
+    </property>
+</configuration>
