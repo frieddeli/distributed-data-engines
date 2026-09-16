@@ -52,7 +52,6 @@ public class BigramFrequencyStripes extends Configured implements Tool {
 			String[] words = line.trim().split("\\s+");
 
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			if (words.length > 1) {
 				KEY.set(words[0]);
@@ -71,7 +70,6 @@ public class BigramFrequencyStripes extends Configured implements Tool {
 	}
 
 	/*
-	 * TODO: write your reducer to aggregate all stripes associated with each key
 	 */
 	private static class MyReducer extends
 			Reducer<Text, HashMapStringIntWritable, PairOfStrings, FloatWritable> {
@@ -86,7 +84,6 @@ public class BigramFrequencyStripes extends Configured implements Tool {
 				Iterable<HashMapStringIntWritable> stripes, Context context)
 				throws IOException, InterruptedException {
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			// merge all stripes for this word into one combined stripe
 			SUM_STRIPES.clear();
@@ -112,7 +109,6 @@ public class BigramFrequencyStripes extends Configured implements Tool {
 	}
 
 	/*
-	 * TODO: Write your combiner to aggregate all stripes with the same key
 	 */
 	private static class MyCombiner
 			extends
@@ -125,7 +121,6 @@ public class BigramFrequencyStripes extends Configured implements Tool {
 				Iterable<HashMapStringIntWritable> stripes, Context context)
 				throws IOException, InterruptedException {
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			SUM_STRIPES.clear();
 			for (HashMapStringIntWritable stripe : stripes) {

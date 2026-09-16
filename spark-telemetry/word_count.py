@@ -123,14 +123,11 @@ print(type(wordsRDD))
 
 # ** (1b) Capitalize and test **
 # 
-# Let's use a `map()` transformation to add the letter 's' to each string in the base RDD we just created. We'll define a Python function that returns the word with an 's' at the end of the word.  Please replace `<FILL IN>` with your solution.  If you have trouble, the next cell has the solution.  After you have defined `capitalize` you can run the third cell which contains a test.  If you implementation is correct it will print `1 test passed`.
 # 
-# This is the general form that exercises will take, except that no example solution will be provided.  Exercises will include an explanation of what is expected, followed by code cells where one cell will have one or more `<FILL IN>` sections.  The cell that needs to be modified will have `# TODO: Replace <FILL IN> with appropriate code` on its first line.  Once the `<FILL IN>` sections are updated and the code is run, the test cell can then be run to verify the correctness of your solution.  The last code cell before the next markdown section will contain the tests.
 
 # In[5]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 def capitalize(word):
     """Capitalize input word
 
@@ -170,7 +167,6 @@ Test.assertEquals(capitalize('rat'), 'RAT', 'incorrect result: capitalize does n
 # In[8]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 # pass the capitalize function into map so it applies to each word
 capitalRDD = wordsRDD.map(capitalize)
 print(capitalRDD.collect())
@@ -191,7 +187,6 @@ Test.assertEquals(capitalRDD.collect(), ['CAT', 'ELEPHANT', 'RAT', 'RAT', 'CAT']
 # In[10]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 # same as before but with a lambda instead of a named function
 capitalLambdaRDD = wordsRDD.map(lambda word: word.upper())
 print(capitalLambdaRDD.collect())
@@ -212,7 +207,6 @@ Test.assertEquals(capitalLambdaRDD.collect(), ['CAT', 'ELEPHANT', 'RAT', 'RAT', 
 # In[12]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 # use len() on each word to get its length
 capitalLengths = (capitalRDD
                   .map(lambda word: len(word))
@@ -237,7 +231,6 @@ Test.assertEquals(capitalLengths, [3, 8, 3, 3, 3],
 # In[14]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 # create a pair rdd where each word maps to 1
 wordPairs = wordsRDD.map(lambda word: (word, 1))
 print(wordPairs.collect())
@@ -269,7 +262,6 @@ Test.assertEquals(wordPairs.collect(),
 # In[16]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 # Note that groupByKey requires no parameters
 # group all the values for the same key together into an iterator
 wordsGrouped = wordPairs.groupByKey()
@@ -295,7 +287,6 @@ Test.assertEquals(sorted(wordsGrouped.mapValues(lambda x: list(x)).collect()),
 # In[18]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 # sum up all the 1s in each group to get the count per word
 wordCountsGrouped = wordsGrouped.map(lambda x: (x[0], sum(x[1])))
 print(wordCountsGrouped.collect())
@@ -317,7 +308,6 @@ Test.assertEquals(sorted(wordCountsGrouped.collect()),
 # In[20]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 # Note that reduceByKey takes in a function that accepts two values and returns a single value
 # just add the two counts together to reduce them
 wordCounts = wordPairs.reduceByKey(lambda a, b: a + b)
@@ -339,7 +329,6 @@ Test.assertEquals(sorted(wordCounts.collect()), [('cat', 2), ('elephant', 1), ('
 # In[22]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 # chain the map and reduceByKey together in one go
 wordCountsCollected = (wordsRDD
                        .map(lambda word: (word, 1))
@@ -365,7 +354,6 @@ Test.assertEquals(sorted(wordCountsCollected), [('cat', 2), ('elephant', 1), ('r
 # In[24]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 # count() gives the number of distinct (word, count) pairs which equals unique words
 uniqueWords = wordCounts.count()
 print(uniqueWords)
@@ -387,7 +375,6 @@ Test.assertEquals(uniqueWords, 3, 'incorrect count of uniqueWords')
 # In[26]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 from operator import add
 # first grab just the counts (the values), then add them all up
 totalCount = (wordCounts
@@ -417,7 +404,6 @@ Test.assertEquals(round(average, 2), 1.67, 'incorrect value of average')
 # In[28]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 def wordCount(wordListRDD):
     """Creates a pair RDD with word counts from an RDD of words.
 
@@ -454,7 +440,6 @@ Test.assertEquals(sorted(wordCount(wordsRDD).collect()),
 # In[30]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 import re
 def removePunctuation(text):
     """Removes punctuation, changes to lower case, and strips leading and trailing spaces.
@@ -519,7 +504,6 @@ print('\n'.join(shakespeareRDD
 # In[33]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 # use flatMap instead of map so each line gets split and the lists are flattened into one rdd
 shakespeareWordsRDD = shakespeareRDD.flatMap(lambda line: line.split())
 shakespeareWordCount = shakespeareWordsRDD.count()
@@ -549,7 +533,6 @@ Test.assertEquals(shakespeareWordsRDD.top(5),
 # In[35]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 # use takeOrdered with a negative key to sort by count descending, grab top 10
 top10WordsAndCounts = wordCount(shakespeareWordsRDD).takeOrdered(10, key=lambda x: -x[1])
 print('\n'.join(map(lambda s: '{0}: {1}'.format(s[0], s[1]), top10WordsAndCounts)))

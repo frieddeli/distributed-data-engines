@@ -267,7 +267,6 @@ parsed_logs, access_logs, failed_logs = parseLogs()
 # In[7]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 
 # method/protocol can be missing and endpoint can include spaces on malformed lines;
 # anchoring the protocol group to HTTP/ prevents the greedy (\S*) from stealing the
@@ -456,8 +455,6 @@ Test.assertEquals(topEndpoints,
 # In[16]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
-# HINT: Each of these <FILL IN> below could be completed with a single transformation or action.
 # You are welcome to structure your solution in a different way, so long as
 # you ensure the variables used in the next Test section are defined (ie. endpointSum, topFiveErrURLs).
 
@@ -496,8 +493,6 @@ Test.assertEquals(topFiveErrURLs,
 # In[18]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
-# HINT: Do you recall the tips from (3a)? Each of these <FILL IN> could be an transformation or action.
 
 # extract just the host field from each log record
 hosts = access_logs.map(lambda log: log.host)
@@ -528,7 +523,6 @@ Test.assertEquals(uniqueHostCount, 3597, 'incorrect uniqueHostCount')
 # In[20]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 
 # create a pair of (hour, host) for each log record
 hourToHostPairTuple = access_logs.map(lambda log: (log.date_time.hour, log.host))
@@ -566,7 +560,6 @@ Test.assertTrue(hourlyHosts.is_cached, 'incorrect hourlyHosts.is_cached')
 # In[22]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 
 # pull out the hour values from the hourlyHosts rdd
 hoursWithHosts = hourlyHosts.map(lambda s: s[0]).collect()
@@ -607,7 +600,6 @@ display(fig)
 # In[25]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 
 # map each log record to (hour, 1) so we can count total requests per hour
 hourAndHostTuple = access_logs.map(lambda log: (log.date_time.hour, 1))
@@ -645,7 +637,6 @@ Test.assertTrue(avgHourlyReqPerHost.is_cached, 'incorrect avgHourlyReqPerHost.is
 # In[27]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 
 # extract hours and averages from the rdd as plain lists for plotting
 hoursWithAvg = avgHourlyReqPerHost.map(lambda s: s[0]).collect()
@@ -685,7 +676,6 @@ display(fig)
 # In[30]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 
 # filter to only keep the 404 records and cache since we reuse it a lot
 badRecords = access_logs.filter(lambda log: log.response_code == 404).cache()
@@ -707,7 +697,6 @@ Test.assertTrue(badRecords.is_cached, 'incorrect badRecords.is_cached')
 # In[32]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 
 # get the endpoint from each 404 record
 badEndpoints = badRecords.map(lambda log: log.endpoint)
@@ -738,7 +727,6 @@ Test.assertEquals(len(badUniqueEndpointsSet30), 30, 'badUniqueEndpointsPick30 no
 # In[34]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 
 # map each bad record to (endpoint, 1) pair
 badEndpointsCountPairTuple = badRecords.map(lambda log: (log.endpoint, 1))
@@ -769,7 +757,6 @@ Test.assertEquals(badEndpointsTop5,
 # In[36]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 
 # map each 404 record to (hour, 1)
 hourCountPairTuple = badRecords.map(lambda log: (log.date_time.hour, 1))
@@ -799,7 +786,6 @@ Test.assertTrue(hourRecordsSorted.is_cached, 'incorrect hourRecordsSorted.is_cac
 # In[38]:
 
 
-# TODO: Replace <FILL IN> with appropriate code
 
 # extract hours and error counts as lists for plotting
 hoursWithErrors404 = hourRecordsSorted.map(lambda s: s[0]).collect()

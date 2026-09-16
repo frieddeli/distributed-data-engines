@@ -29,7 +29,6 @@ public class CORStripes extends Configured implements Tool {
 	private static final Logger LOG = Logger.getLogger(CORStripes.class);
 
 	/*
-	 * TODO: write your first-pass Mapper here.
 	 */
 	private static class CORMapper1 extends
 			Mapper<LongWritable, Text, Text, IntWritable> {
@@ -41,7 +40,6 @@ public class CORStripes extends Configured implements Tool {
 			String clean_doc = value.toString().replaceAll("[^a-z A-Z]", " ");
 			StringTokenizer doc_tokenizer = new StringTokenizer(clean_doc);
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			// emit each word with count 1, reducer will sum them up
 			while (doc_tokenizer.hasMoreTokens()) {
@@ -51,14 +49,12 @@ public class CORStripes extends Configured implements Tool {
 	}
 
 	/*
-	 * TODO: Write your first-pass reducer here.
 	 */
 	private static class CORReducer1 extends
 			Reducer<Text, IntWritable, Text, IntWritable> {
 		@Override
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			// total count of this word across the whole document
 			int sum = 0;
@@ -70,7 +66,6 @@ public class CORStripes extends Configured implements Tool {
 	}
 
 	/*
-	 * TODO: Write your second-pass Mapper here.
 	 */
 	public static class CORStripesMapper2 extends Mapper<LongWritable, Text, Text, MapWritable> {
 		@Override
@@ -83,7 +78,6 @@ public class CORStripes extends Configured implements Tool {
 				sorted_word_set.add(doc_tokenizers.nextToken());
 			}
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			// treeset already sorted alphabetically, convert to list for indexing
 			List<String> sortedList = new ArrayList<String>(sorted_word_set);
@@ -102,7 +96,6 @@ public class CORStripes extends Configured implements Tool {
 	}
 
 	/*
-	 * TODO: Write your second-pass Combiner here.
 	 */
 	public static class CORStripesCombiner2 extends Reducer<Text, MapWritable, Text, MapWritable> {
 		static IntWritable ZERO = new IntWritable(0);
@@ -110,7 +103,6 @@ public class CORStripes extends Configured implements Tool {
 		@Override
 		protected void reduce(Text key, Iterable<MapWritable> values, Context context) throws IOException, InterruptedException {
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			// merge all stripes for the same key by summing co-occurrence counts
 			MapWritable sum = new MapWritable();
@@ -131,7 +123,6 @@ public class CORStripes extends Configured implements Tool {
 	}
 
 	/*
-	 * TODO: Write your second-pass Reducer here.
 	 */
 	public static class CORStripesReducer2 extends Reducer<Text, MapWritable, PairOfStrings, DoubleWritable> {
 		private static Map<String, Integer> word_total_map = new HashMap<String, Integer>();
@@ -173,12 +164,10 @@ public class CORStripes extends Configured implements Tool {
 		}
 
 		/*
-		 * TODO: Write your second-pass Reducer here.
 		 */
 		@Override
 		protected void reduce(Text key, Iterable<MapWritable> values, Context context) throws IOException, InterruptedException {
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			// combine all stripes into one map to get total freq(a, b) per pair
 			MapWritable sum = new MapWritable();

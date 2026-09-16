@@ -35,7 +35,6 @@ public class BigramFrequencyPairs extends Configured implements Tool {
 	private static final Logger LOG = Logger.getLogger(BigramFrequencyPairs.class);
 
 	/*
-	 * TODO: write your Mapper here.
 	 */
 	private static class MyMapper extends
 			Mapper<LongWritable, Text, PairOfStrings, IntWritable> {
@@ -51,7 +50,6 @@ public class BigramFrequencyPairs extends Configured implements Tool {
 			String[] words = line.trim().split("\\s+");
 			
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			if (words.length > 1) {
 				String prev = words[0];
@@ -72,7 +70,6 @@ public class BigramFrequencyPairs extends Configured implements Tool {
 	}
 
 	/*
-	 * TODO: Write your reducer here.
 	 */
 	private static class MyReducer extends
 			Reducer<PairOfStrings, IntWritable, PairOfStrings, FloatWritable> {
@@ -86,7 +83,6 @@ public class BigramFrequencyPairs extends Configured implements Tool {
 		public void reduce(PairOfStrings key, Iterable<IntWritable> values,
 				Context context) throws IOException, InterruptedException {
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			int sum = 0;
 			for (IntWritable val : values) {
@@ -116,7 +112,6 @@ public class BigramFrequencyPairs extends Configured implements Tool {
 		public void reduce(PairOfStrings key, Iterable<IntWritable> values,
 				Context context) throws IOException, InterruptedException {
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			// just sum up the counts before sending to the reducer
 			int sum = 0;

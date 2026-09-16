@@ -39,7 +39,6 @@ public class CORPairs extends Configured implements Tool {
 	private static final Logger LOG = Logger.getLogger(CORPairs.class);
 
 	/*
-	 * TODO: Write your first-pass Mapper here.
 	 */
 	private static class CORMapper1 extends
 			Mapper<LongWritable, Text, Text, IntWritable> {
@@ -51,7 +50,6 @@ public class CORPairs extends Configured implements Tool {
 			String clean_doc = value.toString().replaceAll("[^a-z A-Z]", " ");
 			StringTokenizer doc_tokenizer = new StringTokenizer(clean_doc);
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			// emit each word with count 1, reducer will sum them up
 			while (doc_tokenizer.hasMoreTokens()) {
@@ -61,14 +59,12 @@ public class CORPairs extends Configured implements Tool {
 	}
 
 	/*
-	 * TODO: Write your first-pass reducer here.
 	 */
 	private static class CORReducer1 extends
 			Reducer<Text, IntWritable, Text, IntWritable> {
 		@Override
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			// total count of this word across the whole document
 			int sum = 0;
@@ -81,7 +77,6 @@ public class CORPairs extends Configured implements Tool {
 
 
 	/*
-	 * TODO: Write your second-pass Mapper here.
 	 */
 	public static class CORPairsMapper2 extends Mapper<LongWritable, Text, PairOfStrings, IntWritable> {
 		@Override
@@ -89,7 +84,6 @@ public class CORPairs extends Configured implements Tool {
 			// Please use this tokenizer! DO NOT implement a tokenizer by yourself!
 			StringTokenizer doc_tokenizer = new StringTokenizer(value.toString().replaceAll("[^a-z A-Z]", " "));
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			// collect unique words in this line, duplicates don't add to freq(a,b)
 			Set<String> unique_words = new HashSet<String>();
@@ -109,13 +103,11 @@ public class CORPairs extends Configured implements Tool {
 	}
 
 	/*
-	 * TODO: Write your second-pass Combiner here.
 	 */
 	private static class CORPairsCombiner2 extends Reducer<PairOfStrings, IntWritable, PairOfStrings, IntWritable> {
 		@Override
 		protected void reduce(PairOfStrings key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			// partial sum before the full reducer aggregates across all mappers
 			int sum = 0;
@@ -127,7 +119,6 @@ public class CORPairs extends Configured implements Tool {
 	}
 
 	/*
-	 * TODO: Write your second-pass Reducer here.
 	 */
 	public static class CORPairsReducer2 extends Reducer<PairOfStrings, IntWritable, PairOfStrings, DoubleWritable> {
 		private final static Map<String, Integer> word_total_map = new HashMap<String, Integer>();
@@ -168,12 +159,10 @@ public class CORPairs extends Configured implements Tool {
 		}
 
 		/*
-		 * TODO: write your second-pass Reducer here.
 		 */
 		@Override
 		protected void reduce(PairOfStrings key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
 			/*
-			 * TODO: Your implementation goes here.
 			 */
 			// sum gives freq(a, b): number of lines containing both words
 			int sum = 0;
